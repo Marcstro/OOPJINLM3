@@ -25,9 +25,9 @@ public class InlamningsUppgift3 extends JFrame{
     
     public  InlamningsUppgift3(){
     
-        JLabel l1 = new JLabel("texten har");
+        JLabel l1 = new JLabel("1");
         //l1.setFont("Times new Roman");
-        l1.setFont(new Font("Serif", Font.PLAIN, 25));
+        l1.setFont(new Font("Serif", Font.PLAIN, 35));
         setLayout(new GridLayout(3,1, 1000, 0));
 
         
