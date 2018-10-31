@@ -43,6 +43,8 @@ public class InlamningsUppgift3 extends JFrame implements ActionListener{
         JLabel ButtonRow = new JLabel();
         JButton ordning = new JButton("Ordningen");
         JButton info = new JButton("INFO");
+        JButton scramble = new JButton("Scramble");
+        JLabel winst = new JLabel();
         
         //GameBoard.setSize(350,350);
         JButton l1 = new JButton("1");
@@ -121,19 +123,30 @@ public class InlamningsUppgift3 extends JFrame implements ActionListener{
         
         
         ButtonRow.add(ordning);
+        ButtonRow.add(scramble);
         ButtonRow.add(info);
+        ButtonRow.add(winst);
         ButtonRow.setVisible(true);
         ButtonRow.setPreferredSize(new Dimension(355, 355));
         add(ButtonRow);
+        
+        
+        scramble.addActionListener(this);
+        scramble.setVisible(true);
+        scramble.setSize(150,150);
+        scramble.setPreferredSize(new Dimension(155, 155));
+        
+        //scramble.addActionListener(this);
+        boolean vunnit = false;
+        winst.setText(String.valueOf(vunnit));
+        winst.setVisible(true);
+        winst.setSize(150,150);
+        winst.setPreferredSize(new Dimension(155, 155));
         
         info.addActionListener(this);
         info.setVisible(true);
         info.setSize(150,150);
         info.setPreferredSize(new Dimension(155, 155));
-        
-        
-        
-        
         
         ordning.addActionListener(this);
         ordning.setVisible(true);
@@ -165,77 +178,38 @@ public class InlamningsUppgift3 extends JFrame implements ActionListener{
     }
     public void BytPos(int knappP){
         Collections.swap(lablarna, knappP, tompos);
-        GameBoard.removeAll();
-        for(JButton l: lablarna){
-            GameBoard.add(l);
-            l.setVisible(true);
-            l.setSize(50,50);
-            l.setPreferredSize(new Dimension(55, 55));
-        }
-        invalidate();
-        validate();
-        repaint();
+        rita();
         tompos=knappP;
+        System.out.println(win());
     }
-    public void BytPlats(int a){
-        teststring01=Integer.toString(a);
-        //System.out.println(lablarna.toString());
-//                for(JButton l: lablarna)
-//                    System.out.print(l.getActionCommand() + ", ");
-//                System.out.println("");
-       // System.out.println(lablarna.size() + ", " + a + ", " + tompos);
-      // System.out.println(tompos);
-       System.out.println(a-1);
-       System.out.println(tompos);
-        Collections.swap(lablarna, (a-1), tompos);
-        tompos=a-1;
-        //GameBoard.removeAll();
-        //SortaAllt(lablarna);
-        //invalidate();
-        repaint();
-//        for(JButton l: lablarna)
-//                    System.out.print(l.getActionCommand() + ", ");
-//        System.out.println("");
-        omgruppera();
+    public void Scramble(){
+       Collections.shuffle(lablarna);
+       rita();
+       tompos = lablarna.indexOf(tomma);
     }
-    public void omgruppera(){
-        GameBoard.removeAll();
-        for(JButton l: lablarna){
-            l.removeAll();
-            //l.removeActionListener(this);
-            GameBoard.add(l);
-            //l.addActionListener(this);
-            l.setVisible(true);
-            l.setSize(50,50);
-            l.setPreferredSize(new Dimension(55, 55));
-        }
-        //SwingUtilities.updateComponentTreeUI(this);
-        invalidate();
-        validate();
-        repaint();
-    }
-    public void SortaAllt(LinkedList listan){
+    public boolean win(){
         int raknare=0;
-        //GameBoard.removeAll();
         for(JButton l: lablarna){
-            l.removeAll();
-            l.removeActionListener(this);
-            GameBoard.add(l);
-            //l.addMouseListener(this);
-            l.addActionListener(this);
-            l.setVisible(true);
-            l.setSize(50,50);
-            l.setPreferredSize(new Dimension(55, 55));
-            //l.setName(Integer.toString(raknare));
-            //l.setName("Hejsan");
+            if(Integer.parseInt(l.getName())!=raknare)
+                return false;
             raknare++;
         }
-//        for(JButton l: lablarna){
-//        System.out.print(l.getActionCommand() + ", ");
-//        //l.setText(l.getActionCommand());
-//        }
-        
+        winst.setText(String.valueOf(true));
+        return true;
     }
+    public void rita(){
+        GameBoard.removeAll();
+        for(JButton l: lablarna){
+            GameBoard.add(l);
+            l.setVisible(true);
+            l.setSize(50,50);
+            l.setPreferredSize(new Dimension(55, 55));
+        }
+        invalidate();
+        validate();
+        repaint();
+    }
+    
     @Override
     public void actionPerformed(ActionEvent e) {
         System.out.println("---------------------");
@@ -252,18 +226,22 @@ public class InlamningsUppgift3 extends JFrame implements ActionListener{
             
          }
          else if(e.getSource()==info){
-              System.out.println("Storleken pa list: " + lablarna.size() + ", Senaste klickade: " + teststring01 + ", Gamla klickade: " + tompos);
+              System.out.println("Storleken pa list: " + lablarna.size() + 
+                      ", Senaste klickade: " + teststring01 + ", Gamla klickade: " + tompos);
+         }
+         else if(e.getSource()==scramble){
+              Scramble();
          }
          
          else{
               JButton button = (JButton)e.getSource();
-              String knappid = e.getActionCommand();
+              //String knappid = e.getActionCommand();
               int pos = lablarna.indexOf(button);
-              String namn = button.getName();
-              int t = tompos;
-              System.out.println("Du tryckte pa ruta " + pos +", och tompos ligger pa " + tompos);
+              //String namn = button.getName();
+              //int t = tompos;
+              //System.out.println("Du tryckte pa ruta " + pos +", och tompos ligger pa " + tompos);
               if(pos-tompos == -1 || pos-tompos == 1 || pos-tompos == 4 || pos-tompos == -4 )
-              BytPos(pos);
+                BytPos(pos);
               // pos = lablarna.indexOf(button);
               
               
@@ -344,3 +322,63 @@ public class InlamningsUppgift3 extends JFrame implements ActionListener{
 //    
 //    
 //}
+
+//public void BytPlats(int a){
+//        teststring01=Integer.toString(a);
+//        //System.out.println(lablarna.toString());
+////                for(JButton l: lablarna)
+////                    System.out.print(l.getActionCommand() + ", ");
+////                System.out.println("");
+//       // System.out.println(lablarna.size() + ", " + a + ", " + tompos);
+//      // System.out.println(tompos);
+//       System.out.println(a-1);
+//       System.out.println(tompos);
+//        Collections.swap(lablarna, (a-1), tompos);
+//        tompos=a-1;
+//        //GameBoard.removeAll();
+//        //SortaAllt(lablarna);
+//        //invalidate();
+//        repaint();
+////        for(JButton l: lablarna)
+////                    System.out.print(l.getActionCommand() + ", ");
+////        System.out.println("");
+//        omgruppera();
+//    }
+//    public void omgruppera(){
+//        GameBoard.removeAll();
+//        for(JButton l: lablarna){
+//            l.removeAll();
+//            //l.removeActionListener(this);
+//            GameBoard.add(l);
+//            //l.addActionListener(this);
+//            l.setVisible(true);
+//            l.setSize(50,50);
+//            l.setPreferredSize(new Dimension(55, 55));
+//        }
+//        //SwingUtilities.updateComponentTreeUI(this);
+//        invalidate();
+//        validate();
+//        repaint();
+//    }
+//    public void SortaAllt(LinkedList listan){
+//        int raknare=0;
+//        //GameBoard.removeAll();
+//        for(JButton l: lablarna){
+//            l.removeAll();
+//            l.removeActionListener(this);
+//            GameBoard.add(l);
+//            //l.addMouseListener(this);
+//            l.addActionListener(this);
+//            l.setVisible(true);
+//            l.setSize(50,50);
+//            l.setPreferredSize(new Dimension(55, 55));
+//            //l.setName(Integer.toString(raknare));
+//            //l.setName("Hejsan");
+//            raknare++;
+//        }
+////        for(JButton l: lablarna){
+////        System.out.print(l.getActionCommand() + ", ");
+////        //l.setText(l.getActionCommand());
+////        }
+//        
+//    }
