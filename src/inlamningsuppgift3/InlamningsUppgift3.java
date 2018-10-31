@@ -72,7 +72,7 @@ public class InlamningsUppgift3 extends JFrame implements ActionListener{
         GameBoard.setLayout(new GridLayout(4,4, 5, 5));
         
         
-         tompos = 15;
+        
         
         lablarna = new LinkedList<>();
         
@@ -87,13 +87,16 @@ public class InlamningsUppgift3 extends JFrame implements ActionListener{
         lablarna.add(l5);lablarna.add(l6);lablarna.add(l7);
         lablarna.add(l8);lablarna.add(l9);lablarna.add(l10);
         lablarna.add(l11);lablarna.add(l12);lablarna.add(l13);
-        lablarna.add(l14);lablarna.add(l15);lablarna.add(tomma);
-        tomma.setActionCommand("16");
+        lablarna.add(l14);lablarna.add(l15);
         
+        lablarna.add(tomma);
+        tomma.setActionCommand("16");
+        tompos = 15;
         
          
         int raknare=0;
         for(JButton l: lablarna){
+            l.setFont(new Font("Arial", Font.PLAIN, 40));
             GameBoard.add(l);
             //l.addMouseListener(this);
             l.addActionListener(this);
@@ -104,17 +107,24 @@ public class InlamningsUppgift3 extends JFrame implements ActionListener{
             //l.setName("Hejsan");
             raknare++;
         }
+        GameBoard.add(tomma);
+        add(GameBoard);
+        //GameBoard.setVisible(true);
+        
         //SortaAllt(lablarna);
         
         
         setLayout( new FlowLayout() );
-        GameBoard.add(tomma);
+        
         
         ButtonRow.setLayout( new FlowLayout() );
         
-        add(GameBoard);
+        
         ButtonRow.add(ordning);
         ButtonRow.add(info);
+        ButtonRow.setVisible(true);
+        ButtonRow.setPreferredSize(new Dimension(355, 355));
+        add(ButtonRow);
         
         info.addActionListener(this);
         info.setVisible(true);
@@ -122,16 +132,15 @@ public class InlamningsUppgift3 extends JFrame implements ActionListener{
         info.setPreferredSize(new Dimension(155, 155));
         
         
-        ButtonRow.setVisible(true);
-        ButtonRow.setPreferredSize(new Dimension(355, 355));
-        add(ButtonRow);
+        
+        
         
         ordning.addActionListener(this);
         ordning.setVisible(true);
         ordning.setSize(150,150);
         ordning.setPreferredSize(new Dimension(155, 155));
         
-        GameBoard.setVisible(true);
+        
 //        //l9.setSize(150,150);
 //        l9.setPreferredSize(new Dimension(350, 140));
 //       l9.add(l10);
@@ -154,7 +163,20 @@ public class InlamningsUppgift3 extends JFrame implements ActionListener{
         
         
     }
-    
+    public void BytPos(int knappP){
+        Collections.swap(lablarna, knappP, tompos);
+        GameBoard.removeAll();
+        for(JButton l: lablarna){
+            GameBoard.add(l);
+            l.setVisible(true);
+            l.setSize(50,50);
+            l.setPreferredSize(new Dimension(55, 55));
+        }
+        invalidate();
+        validate();
+        repaint();
+        tompos=knappP;
+    }
     public void BytPlats(int a){
         teststring01=Integer.toString(a);
         //System.out.println(lablarna.toString());
@@ -180,9 +202,9 @@ public class InlamningsUppgift3 extends JFrame implements ActionListener{
         GameBoard.removeAll();
         for(JButton l: lablarna){
             l.removeAll();
-            l.removeActionListener(this);
+            //l.removeActionListener(this);
             GameBoard.add(l);
-            l.addActionListener(this);
+            //l.addActionListener(this);
             l.setVisible(true);
             l.setSize(50,50);
             l.setPreferredSize(new Dimension(55, 55));
@@ -224,6 +246,9 @@ public class InlamningsUppgift3 extends JFrame implements ActionListener{
              for(JButton l: lablarna)
                     System.out.print(l.getActionCommand() + ", ");
                 System.out.println("");
+                for(JButton l: lablarna)
+                    System.out.print(l.getActionCommand() + ", ");
+                System.out.println("");
             
          }
          else if(e.getSource()==info){
@@ -231,18 +256,31 @@ public class InlamningsUppgift3 extends JFrame implements ActionListener{
          }
          
          else{
-                         JButton button = (JButton)e.getSource();
-                        //button.setBackground(Color.BLUE);
-             int aa = lablarna.indexOf(button)+1;
-             int pekade=Integer.parseInt(e.getActionCommand())-1;
-             System.out.println("pekade=" + pekade + ", tompos = " + tompos);
-             if((pekade)==tompos || (pekade+1)==tompos || (pekade+4)==tompos){
-                 System.out.println("yes");
-                 System.out.println(e.getActionCommand());
-             //BytPlats(Integer.valueOf(e.getActionCommand()));}
-             System.out.println("aa=" +aa);
-             BytPlats(aa);
-             }
+              JButton button = (JButton)e.getSource();
+              String knappid = e.getActionCommand();
+              int pos = lablarna.indexOf(button);
+              String namn = button.getName();
+              int t = tompos;
+              System.out.println("Du tryckte pa ruta " + pos +", och tompos ligger pa " + tompos);
+              if(pos-tompos == -1 || pos-tompos == 1 || pos-tompos == 4 || pos-tompos == -4 )
+              BytPos(pos);
+              // pos = lablarna.indexOf(button);
+              
+              
+             
+             //detta nedan var här förut
+//             JButton button = (JButton)e.getSource();
+//              //button.setBackground(Color.BLUE);
+//             int aa = lablarna.indexOf(button)+1;
+//             int pekade=Integer.parseInt(e.getActionCommand())-1;
+//             System.out.println("pekade=" + pekade + ", tompos = " + tompos);
+//             if((pekade)==tompos || (pekade+1)==tompos || (pekade+4)==tompos){
+//                 System.out.println("yes");
+//                 System.out.println(e.getActionCommand());
+//             //BytPlats(Integer.valueOf(e.getActionCommand()));}
+//             System.out.println("aa=" +aa);
+//             BytPlats(aa);
+             
          }
         
 //        for(JButton l: lablarna){
