@@ -29,6 +29,7 @@ import java.util.*;
 
 
 public class InlamningsUppgift3 extends JFrame implements ActionListener{
+    
     LinkedList<JButton> lablarna;
     int tompos;
     JLabel GameBoard = new JLabel();
@@ -130,8 +131,14 @@ public class InlamningsUppgift3 extends JFrame implements ActionListener{
        tompos = lablarna.indexOf(tomma);
     }
     public void FuskScramble(){
-        Collections.clear();
-        Collections.
+        for(JButton l: lablarna){
+            if(lablarna.indexOf(l)!=Integer.parseInt(l.getName())){
+                Collections.swap(lablarna, lablarna.indexOf(l), Integer.parseInt(l.getName()));
+                tompos=lablarna.indexOf(tomma);
+                rita();
+                break;
+            }
+        }
     }
     public boolean win(){
         int raknare=0;
@@ -159,7 +166,10 @@ public class InlamningsUppgift3 extends JFrame implements ActionListener{
     }
     public void rita(){
         GameBoard.removeAll();
+        int rakna=0;
         for(JButton l: lablarna){
+            System.out.println(rakna);
+            rakna++;
             GameBoard.add(l);
             l.setVisible(true);
             l.setSize(50,50);
