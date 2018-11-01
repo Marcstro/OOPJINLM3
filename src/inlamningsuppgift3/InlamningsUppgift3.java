@@ -123,7 +123,6 @@ public class InlamningsUppgift3 extends JFrame implements ActionListener{
         Collections.swap(lablarna, knappP, tompos);
         rita();
         tompos=knappP;
-        System.out.println(win());
     }
     public void Scramble(){
        Collections.shuffle(lablarna);
@@ -139,6 +138,8 @@ public class InlamningsUppgift3 extends JFrame implements ActionListener{
                 break;
             }
         }
+        if(win())
+            woohoo();
     }
     public boolean win(){
         int raknare=0;
@@ -168,7 +169,6 @@ public class InlamningsUppgift3 extends JFrame implements ActionListener{
         GameBoard.removeAll();
         int rakna=0;
         for(JButton l: lablarna){
-            System.out.println(rakna);
             rakna++;
             GameBoard.add(l);
             l.setVisible(true);
